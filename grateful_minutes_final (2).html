@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Root and Rise Journal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #2d5016 0%, #56734c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #87a96b 0%, #c8d5b9 50%, #c8d5b9 100%);
+            padding: 30px;
+            text-align: center;
+            color: #2d5016;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-family: 'League Spartan', sans-serif;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 0;
+            min-height: 600px;
+        }
+
+        .journal-area {
+            padding: 30px;
+        }
+
+        .entry-form {
+            background: #f8faff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #56734c;
+            box-shadow: 0 0 0 3px rgba(86, 115, 76, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #56734c, #2d5016);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(86, 115, 76, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #87a96b, #56734c);
+        }
+
+        .entries {
+            margin-top: 30px;
+        }
+
+        .entry {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #56734c;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .entry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .entry-date {
+            color: #718096;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .entry-id {
+            font-size: 12px;
+            color: #a0aec0;
+            background: #edf2f7;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .entry-content {
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .entry-links {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .entry-links h4 {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+
+        .link-item {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 5px;
+        }
+
+        .internal-link {
+            color: #56734c;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .internal-link:hover {
+            background: rgba(86, 115, 76, 0.1);
+        }
+
+        .external-link {
+            color: #2d5016;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .external-link:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar {
+            background: #f7fafc;
+            padding: 30px;
+            border-left: 1px solid #e2e8f0;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #56734c;
+        }
+
+        .connections {
+            background: #f0f4ed;
+            padding: 15px;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .connection-item {
+            display: block;
+            color: #4a5568;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .connection-item:hover {
+            background: #e5ede1;
+        }
+
+        /* Menu dropdown styles */
+        .menu-container {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+
+        .menu-button {
+            background: rgba(45, 80, 22, 0.1);
+            border: 2px solid #2d5016;
+            color: #2d5016;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background: rgba(45, 80, 22, 0.2);
+            transform: scale(1.05);
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            min-width: 160px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .menu-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            padding: 12px 18px;
+            color: #4a5568;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+            margin: 4px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: #f7fafc;
+            color: #2d5016;
+        }
+
+        .menu-item:first-child {
+            margin-top: 8px;
+        }
+
+        .menu-item:last-child {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .menu-container {
+                top: 15px;
+                right: 20px;
+            }
+            
+            .menu-button {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .journal-area, .sidebar {
+                padding: 20px;
+            }
+            
+            .entry-form {
+                padding: 20px;
+            }
+            
+            .form-group input, .form-group textarea {
+                font-size: 16px;
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 15px 20px;
+                font-size: 16px;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+            
+            .btn:not(:last-child) {
+                margin-right: 0;
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+                margin-bottom: 5px;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            .journal-area, .sidebar {
+                padding: 15px;
+            }
+            
+            .entry {
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .form-group input, .form-group textarea {
+                padding: 12px;
+            }
+            
+            .entry-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+
+        /* Tablet optimizations */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .container {
+                margin: 15px;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr 300px;
+            }
+            
+            .journal-area {
+                padding: 25px;
+            }
+            
+            .sidebar {
+                padding: 25px 20px;
+            }
+            
+            .form-group input, .form-group textarea {
+                font-size: 16px;
+                padding: 14px;
+            }
+            
+            .btn {
+                padding: 14px 20px;
+                font-size: 15px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .internal-link, .connection-item {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .entry {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                font-family: 'Times New Roman', serif;
+            }
+            
+            .container {
+                box-shadow: none !important;
+                background: white !important;
+            }
+            
+            .header {
+                background: white !important;
+                color: black !important;
+                border-bottom: 2px solid #2d5016;
+            }
+            
+            .sidebar, .entry-form, .menu-container {
+                display: none !important;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .entry {
+                background: white !important;
+                box-shadow: none !important;
+                border: 1px solid #ccc;
+                margin-bottom: 20px;
+                page-break-inside: avoid;
+            }
+            
+            .entry-links, .internal-link, .external-link {
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="menu-container">
+                <div class="menu-button" onclick="journal.toggleMenu()">⋮</div>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <div class="menu-item" onclick="journal.exportEntries()">📄 Export Text</div>
+                    <div class="menu-item" onclick="journal.exportJSON()">💾 Backup Data</div>
+                    <div class="menu-item" onclick="journal.printJournal()">🖨️ Print Journal</div>
+                </div>
+            </div>
+            <h1>🍃 Root & Rise Journal 🍃</h1>
+            <p>A framework that honors your depth and your drive</p>
+        </div>
+
+        <div class="main-content">
+            <div class="journal-area">
+                <form class="entry-form" id="entryForm">
+                    <div class="form-group">
+                        <label for="gratitudeText">What are 3 things you are grateful for today?</label>
+                        <textarea id="gratitudeText" placeholder="Describe what you're grateful for and why it matters to you..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="soulText">Soul (Spiritual + Emotional Resonance)</label>
+                        <textarea id="soulText" placeholder="What quote, scripture or story is speaking to me right now?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="strategyText">Strategy (Vision + Systems)</label>
+                        <textarea id="strategyText" placeholder="What's one bold move I can make this week that aligns with my long-term vision?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="selfText">Self (Physical Alignment)</label>
+                        <textarea id="selfText" placeholder="What does my body need most right now—and how can I respond with care, consistency and curiosity?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="serviceText">Service (Impact + Contribution)</label>
+                        <textarea id="serviceText" placeholder="Who am I called to serve or support this week?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="linkedEntries">Link to previous entries (optional)</label>
+                        <input type="text" id="linkedEntries" placeholder="Enter entry IDs separated by commas (e.g., 1, 3, 5)">
+                    </div>
+                    
+                    <button type="submit" class="btn">Add Gratitude Entry</button>
+                </form>
+
+                <div class="entries" id="entriesContainer">
+                    <!-- Entries will be dynamically added here -->
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3>Search Entries</h3>
+                    <input type="text" class="search-box" id="searchBox" placeholder="Search your gratitude...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class GratitudeJournal {
+            constructor() {
+                this.entries = this.loadEntries();
+                this.nextId = this.entries.length > 0 ? Math.max(...this.entries.map(e => e.id)) + 1 : 1;
+                
+                this.initializeEventListeners();
+                this.renderEntries();
+                this.updateSidebar();
+            }
+
+            initializeEventListeners() {
+                document.getElementById('entryForm').addEventListener('submit', (e) => this.handleSubmit(e));
+                document.getElementById('searchBox').addEventListener('input', (e) => this.handleSearch(e));
+            }
+
+            handleSubmit(e) {
+                e.preventDefault();
+                
+                const gratitudeText = document.getElementById('gratitudeText').value.trim();
+                const soulText = document.getElementById('soulText').value.trim();
+                const strategyText = document.getElementById('strategyText').value.trim();
+                const selfText = document.getElementById('selfText').value.trim();
+                const serviceText = document.getElementById('serviceText').value.trim();
+                const linkedEntries = document.getElementById('linkedEntries').value.trim();
+                
+                if (!gratitudeText) return;
+
+                const entry = {
+                    id: this.nextId++,
+                    text: gratitudeText,
+                    soul: soulText,
+                    strategy: strategyText,
+                    self: selfText,
+                    service: serviceText,
+                    tags: [],
+                    linkedEntries: linkedEntries ? linkedEntries.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id)) : [],
+                    externalLinks: [],
+                    date: new Date().toLocaleDateString(),
+                    timestamp: new Date().toISOString()
+                };
+
+                this.entries.unshift(entry);
+                this.saveEntries();
+                this.resetForm();
+                this.renderEntries();
+                this.updateSidebar();
+            }
+
+            handleSearch(e) {
+                const query = e.target.value.toLowerCase();
+                this.renderEntries(query);
+            }
+
+            renderEntries(searchQuery = '') {
+                const container = document.getElementById('entriesContainer');
+                let filteredEntries = this.entries;
+
+                if (searchQuery) {
+                    filteredEntries = this.entries.filter(entry => 
+                        entry.text.toLowerCase().includes(searchQuery)
+                    );
+                }
+
+                if (filteredEntries.length === 0) {
+                    container.innerHTML = searchQuery ? 
+                        '<p style="text-align: center; color: #718096; padding: 40px;">No entries match your search.</p>' :
+                        '<p style="text-align: center; color: #718096; padding: 40px;">Start your gratitude journey by adding your first entry above!</p>';
+                    return;
+                }
+
+                container.innerHTML = filteredEntries.map(entry => `
+                    <div class="entry" id="entry-${entry.id}">
+                        <div class="entry-header">
+                            <span class="entry-date">${entry.date}</span>
+                            <span class="entry-id">ID: ${entry.id}</span>
+                        </div>
+                        <div class="entry-content">
+                            <strong>Gratitude:</strong><br>
+                            ${this.formatText(entry.text)}
+                        </div>
+                        ${entry.soul ? `<div class="entry-content" style="margin-top: 15px;">
+                            <strong>Soul (Spiritual + Emotional Resonance):</strong><br>
+                            ${this.formatText(entry.soul)}
+                        </div>` : ''}
+                        ${entry.strategy ? `<div class="entry-content" style="margin-top: 15px;">
+                            <strong>Strategy (Vision + Systems):</strong><br>
+                            ${this.formatText(entry.strategy)}
+                        </div>` : ''}
+                        ${entry.self ? `<div class="entry-content" style="margin-top: 15px;">
+                            <strong>Self (Physical Alignment):</strong><br>
+                            ${this.formatText(entry.self)}
+                        </div>` : ''}
+                        ${entry.service ? `<div class="entry-content" style="margin-top: 15px;">
+                            <strong>Service (Impact + Contribution):</strong><br>
+                            ${this.formatText(entry.service)}
+                        </div>` : ''}
+                        ${this.renderEntryLinks(entry)}
+                    </div>
+                `).join('');
+            }
+
+            renderEntryLinks(entry) {
+                const internalLinks = entry.linkedEntries
+                    .filter(id => this.entries.find(e => e.id === id))
+                    .map(id => {
+                        const linkedEntry = this.entries.find(e => e.id === id);
+                        return `<span class="link-item"><a href="#entry-${id}" class="internal-link" onclick="journal.scrollToEntry(${id})">#${id}</a></span>`;
+                    });
+
+                if (internalLinks.length === 0) return '';
+
+                return `
+                    <div class="entry-links">
+                        <h4>Connected to:</h4>
+                        ${internalLinks.join('')}
+                    </div>
+                `;
+            }
+
+            scrollToEntry(id) {
+                const element = document.getElementById(`entry-${id}`);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    element.style.animation = 'pulse 0.5s ease-in-out';
+                    setTimeout(() => {
+                        element.style.animation = '';
+                    }, 500);
+                }
+            }
+
+            updateSidebar() {
+                // Sidebar updated
+            }
+
+
+
+            formatText(text) {
+                return text.replace(/\n/g, '<br>');
+            }
+
+            resetForm() {
+                document.getElementById('entryForm').reset();
+            }
+
+            saveEntries() {
+                try {
+                    const dataToSave = {
+                        entries: this.entries,
+                        nextId: this.nextId,
+                        lastSaved: new Date().toISOString()
+                    };
+                    localStorage.setItem('rootAndRiseJournalData', JSON.stringify(dataToSave));
+                } catch (error) {
+                    console.warn('Unable to save to localStorage:', error);
+                }
+            }
+
+            loadEntries() {
+                try {
+                    const savedData = localStorage.getItem('rootAndRiseJournalData');
+                    if (savedData) {
+                        const parsedData = JSON.parse(savedData);
+                        this.nextId = parsedData.nextId || 1;
+                        return parsedData.entries || [];
+                    }
+                } catch (error) {
+                    console.warn('Unable to load from localStorage:', error);
+                }
+                
+                return [];
+            }
+
+            exportEntries() {
+                const exportData = {
+                    title: "Root and Rise Journal Export",
+                    exportDate: new Date().toLocaleDateString(),
+                    entries: this.entries.map(entry => ({
+                        id: entry.id,
+                        date: entry.date,
+                        text: entry.text,
+                        soul: entry.soul,
+                        strategy: entry.strategy,
+                        self: entry.self,
+                        service: entry.service,
+                        tags: entry.tags,
+                        linkedEntries: entry.linkedEntries,
+                        externalLinks: entry.externalLinks
+                    }))
+                };
+
+                let exportText = `🍃 ROOT AND RISE JOURNAL 🍃\n`;
+                exportText += `Exported on: ${exportData.exportDate}\n`;
+                exportText += `Total entries: ${exportData.entries.length}\n\n`;
+                exportText += "=" + "=".repeat(50) + "\n\n";
+
+                exportData.entries.forEach(entry => {
+                    exportText += `Entry #${entry.id} - ${entry.date}\n`;
+                    exportText += "-".repeat(30) + "\n";
+                    exportText += `Gratitude: ${entry.text}\n\n`;
+                    
+                    if (entry.soul) {
+                        exportText += `Soul (Spiritual + Emotional Resonance): ${entry.soul}\n\n`;
+                    }
+                    
+                    if (entry.strategy) {
+                        exportText += `Strategy (Vision + Systems): ${entry.strategy}\n\n`;
+                    }
+                    
+                    if (entry.self) {
+                        exportText += `Self (Physical Alignment): ${entry.self}\n\n`;
+                    }
+                    
+                    if (entry.service) {
+                        exportText += `Service (Impact + Contribution): ${entry.service}\n\n`;
+                    }
+                    
+                    if (entry.linkedEntries.length > 0) {
+                        exportText += `Connected to entries: ${entry.linkedEntries.join(', ')}\n`;
+                    }
+                    
+                    if (entry.externalLinks.length > 0) {
+                        exportText += `External links: ${entry.externalLinks.join(', ')}\n`;
+                    }
+                    
+                    exportText += "\n" + "=".repeat(60) + "\n\n";
+                });
+
+                const blob = new Blob([exportText], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `root-and-rise-journal-${new Date().toISOString().split('T')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+
+            printJournal() {
+                window.print();
+            }
+
+            exportJSON() {
+                const exportData = {
+                    title: "Root and Rise Journal",
+                    exportDate: new Date().toISOString(),
+                    entries: this.entries,
+                    nextId: this.nextId
+                };
+
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `root-and-rise-journal-backup-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+
+            toggleMenu() {
+                const dropdown = document.getElementById('menuDropdown');
+                dropdown.classList.toggle('show');
+                
+                if (dropdown.classList.contains('show')) {
+                    setTimeout(() => {
+                        document.addEventListener('click', this.closeMenuOnClickOutside.bind(this), { once: true });
+                    }, 100);
+                }
+            }
+
+            closeMenuOnClickOutside(event) {
+                const menuContainer = document.querySelector('.menu-container');
+                if (!menuContainer.contains(event.target)) {
+                    document.getElementById('menuDropdown').classList.remove('show');
+                }
+            }
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        const journal = new GratitudeJournal();
+    </script>
+</body>
+</html>
